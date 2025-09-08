@@ -11,7 +11,7 @@ export class LarkTenantApi implements ICredentialType {
 	documentationUrl =
 		'https://open.larksuite.com/document/uAjLw4CM/ukTMukTMukTM/reference/authen-v3/tenant_access_token';
 
-	icon = { light: 'file:lark_new.svg', dark: 'file:lark_new.svg' } as const;
+	icon = { light: 'file:lark.svg', dark: 'file:lark.svg' } as const;
 
 	properties: INodeProperties[] = [
 		{
@@ -86,13 +86,17 @@ export class LarkTenantApi implements ICredentialType {
 		request: {
 			url: 'https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal',
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json; charset=utf-8',
-			},
+			headers: { 'Content-Type': 'application/json; charset=utf-8' },
 			body: {
 				app_id: '={{$credentials.appId}}',
 				app_secret: '={{$credentials.appSecret}}',
 			},
 		},
+		rules: [
+			{
+				type: 'responseCode',
+				properties: { value: 200, message: 'Authentication failed: Non-200 response' },
+			},
+		],
 	};
 }
